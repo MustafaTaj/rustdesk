@@ -13,7 +13,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>DAL SEEN</string>
+	<key>CFBundleDisplayName</key>
+	<string>DAL SEEN</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -29,7 +31,7 @@
 			<string>com.carriez.rustdesk</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>rustdesk</string>
+				<string>dalseen</string>
 			</array>
 		</dict>
 	</array>

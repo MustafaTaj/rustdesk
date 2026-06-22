@@ -321,10 +321,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
               gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [
-                  Color(0xffe242bc),
-                  Color(0xfff4727c),
-                ],
+                colors: kBrandGradientColors,
               ),
             ),
             padding: EdgeInsets.all(25.0),
@@ -412,7 +409,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                                 }
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: kBrandPrimary,
                         ),
                         child: Text(
                           isButtonLocked
@@ -435,7 +432,7 @@ class ScamWarningDialogState extends State<ScamWarningDialog> {
                           Navigator.of(context).pop();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
+                          backgroundColor: kBrandPrimary,
                         ),
                         child: Text(
                           translate("Decline"),

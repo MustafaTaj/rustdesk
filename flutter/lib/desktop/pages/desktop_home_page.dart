@@ -33,7 +33,7 @@ class DesktopHomePage extends StatefulWidget {
   State<DesktopHomePage> createState() => _DesktopHomePageState();
 }
 
-const borderColor = Color(0xFF2F65BA);
+const borderColor = kBrandPrimary;
 
 class _DesktopHomePageState extends State<DesktopHomePage>
     with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
@@ -433,11 +433,11 @@ class _DesktopHomePageState extends State<DesktopHomePage>
     if (!bind.isCustomClient() &&
         updateUrl.isNotEmpty &&
         !isCardClosed &&
-        bind.mainUriPrefixSync().contains('rustdesk')) {
+        bind.mainUriPrefixSync().contains('dalseen')) {
       final isToUpdate = (isWindows || isMacOS) && bind.mainIsInstalled();
       String btnText = isToUpdate ? 'Update' : 'Download';
       GestureTapCallback onPressed = () async {
-        final Uri url = Uri.parse('https://rustdesk.com/download');
+        final Uri url = Uri.parse(kDalSeenHomeUrl);
         await launchUrl(url);
       };
       if (isToUpdate) {
@@ -453,7 +453,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
           closeButton: true,
           help: isToUpdate ? 'Changelog' : null,
           link: isToUpdate
-              ? 'https://github.com/rustdesk/rustdesk/releases/tag/${bind.mainGetNewVersion()}'
+              ? kDalSeenHomeUrl
               : null);
     }
     if (systemError.isNotEmpty) {
@@ -530,7 +530,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
             link:
-                'https://rustdesk.com/docs/en/client/linux/#permissions-issue',
+                kDalSeenHomeUrl,
             closeButton: true,
             closeOption: keyShowSelinuxHelpTip,
           ));
@@ -541,13 +541,13 @@ class _DesktopHomePageState extends State<DesktopHomePage>
             "Warning", "wayland_experiment_tip", "", () async {},
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
-            link: 'https://rustdesk.com/docs/en/client/linux/#x11-required'));
+            link: kDalSeenHomeUrl));
       } else if (bind.mainIsLoginWayland()) {
         LinuxCards.add(buildInstallCard("Warning",
             "Login screen using Wayland is not supported", "", () async {},
             marginTop: LinuxCards.isEmpty ? 20.0 : 5.0,
             help: 'Help',
-            link: 'https://rustdesk.com/docs/en/client/linux/#login-screen'));
+            link: kDalSeenHomeUrl));
       }
       if (LinuxCards.isNotEmpty) {
         return Column(
@@ -609,10 +609,7 @@ class _DesktopHomePageState extends State<DesktopHomePage>
                   gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [
-                  Color.fromARGB(255, 226, 66, 188),
-                  Color.fromARGB(255, 244, 114, 124),
-                ],
+                colors: kBrandGradientColors,
               )),
               padding: EdgeInsets.all(20),
               child: Column(

@@ -446,10 +446,7 @@ class _CmHeaderState extends State<_CmHeader>
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [
-            Color(0xff00bfe1),
-            Color(0xff0071ff),
-          ],
+          colors: kBrandGradientColors,
         ),
       ),
       margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),

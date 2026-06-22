@@ -1012,7 +1012,10 @@ pub fn is_rustdesk() -> bool {
 
 #[inline]
 pub fn get_uri_prefix() -> String {
-    format!("{}://", get_app_name().to_lowercase())
+    format!(
+        "{}://",
+        get_app_name().to_lowercase().replace(' ', "")
+    )
 }
 
 #[cfg(target_os = "macos")]
@@ -1081,13 +1084,13 @@ fn get_api_server_(api: String, custom: String) -> String {
             return format!("http://{}", s);
         }
     }
-    "https://admin.rustdesk.com".to_owned()
+    "https://dalseen.sa".to_owned()
 }
 
 #[inline]
 pub fn is_public(url: &str) -> bool {
     let url = url.to_ascii_lowercase();
-    url.contains("rustdesk.com/") || url.ends_with("rustdesk.com")
+    url.contains("dalseen.sa/") || url.ends_with("dalseen.sa")
 }
 
 pub fn get_udp_punch_enabled() -> bool {
@@ -2085,10 +2088,12 @@ pub fn load_custom_client() {
     #[cfg(debug_assertions)]
     if let Ok(data) = std::fs::read_to_string("./custom.txt") {
         read_custom_client(data.trim());
+        lock_bundled_server_settings();
         return;
     }
     let Some(path) = std::env::current_exe().map_or(None, |x| x.parent().map(|x| x.to_path_buf()))
     else {
+        lock_bundled_server_settings();
         return;
     };
     #[cfg(target_os = "macos")]
@@ -2097,10 +2102,37 @@ pub fn load_custom_client() {
     if path.is_file() {
         let Ok(data) = std::fs::read_to_string(&path) else {
             log::error!("Failed to read custom client config");
+            lock_bundled_server_settings();
             return;
         };
         read_custom_client(&data.trim());
     }
+    lock_bundled_server_settings();
+}
+
+fn lock_bundled_server_settings() {
+    *config::APP_NAME.write().unwrap() = "DAL SEEN".to_owned();
+
+    let mut overwrite = config::OVERWRITE_SETTINGS.write().unwrap();
+    overwrite.insert(
+        keys::OPTION_CUSTOM_RENDEZVOUS_SERVER.to_string(),
+        config::RENDEZVOUS_SERVERS[0].to_string(),
+    );
+    overwrite.insert(keys::OPTION_KEY.to_string(), config::RS_PUB_KEY.to_string());
+    drop(overwrite);
+
+    config::BUILTIN_SETTINGS
+        .write()
+        .unwrap()
+        .insert(keys::OPTION_HIDE_SERVER_SETTINGS.to_string(), "Y".to_string());
+    config::BUILTIN_SETTINGS
+        .write()
+        .unwrap()
+        .insert("hide-check-update".to_string(), "Y".to_string());
+
+    // Remove any previously saved user overrides for these locked options.
+    Config::set_option(keys::OPTION_CUSTOM_RENDEZVOUS_SERVER.to_string(), String::new());
+    Config::set_option(keys::OPTION_KEY.to_string(), String::new());
 }
 
 fn read_custom_client_advanced_settings(
@@ -2763,27 +2795,27 @@ mod tests {
 
     #[test]
     fn test_is_public() {
-        // Test URLs containing "rustdesk.com/"
-        assert!(is_public("https://rustdesk.com/"));
-        assert!(is_public("https://www.rustdesk.com/"));
-        assert!(is_public("https://api.rustdesk.com/v1"));
-        assert!(is_public("https://API.RUSTDESK.COM/v1"));
-        assert!(is_public("https://rustdesk.com/path"));
+        // Test URLs containing "dalseen.sa/"
+        assert!(is_public("https://dalseen.sa/"));
+        assert!(is_public("https://www.dalseen.sa/"));
+        assert!(is_public("https://api.dalseen.sa/v1"));
+        assert!(is_public("https://API.DALSEEN.SA/v1"));
+        assert!(is_public("https://dalseen.sa/path"));
 
-        // Test URLs ending with "rustdesk.com"
-        assert!(is_public("rustdesk.com"));
-        assert!(is_public("https://rustdesk.com"));
-        assert!(is_public("https://RustDesk.com"));
-        assert!(is_public("http://www.rustdesk.com"));
-        assert!(is_public("https://api.rustdesk.com"));
+        // Test URLs ending with "dalseen.sa"
+        assert!(is_public("dalseen.sa"));
+        assert!(is_public("https://dalseen.sa"));
+        assert!(is_public("https://DALSEEN.sa"));
+        assert!(is_public("http://www.dalseen.sa"));
+        assert!(is_public("https://api.dalseen.sa"));
 
         // Test non-public URLs
         assert!(!is_public("https://example.com"));
         assert!(!is_public("https://custom-server.com"));
         assert!(!is_public("http://192.168.1.1"));
         assert!(!is_public("localhost"));
-        assert!(!is_public("https://rustdesk.computer.com"));
-        assert!(!is_public("rustdesk.comhello.com"));
+        assert!(!is_public("https://dalseen.safeguard.com"));
+        assert!(!is_public("dalseen.sahello.com"));
     }
 
     #[test]

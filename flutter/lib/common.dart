@@ -251,16 +251,16 @@ class MyTheme {
   MyTheme._();
 
   static const Color grayBg = Color(0xFFEFEFF2);
-  static const Color accent = Color(0xFF0071FF);
-  static const Color accent50 = Color(0x770071FF);
-  static const Color accent80 = Color(0xAA0071FF);
+  static const Color accent = kBrandPrimary;
+  static const Color accent50 = Color(0x770E2F44);
+  static const Color accent80 = Color(0xAA0E2F44);
   static const Color canvasColor = Color(0xFF212121);
   static const Color border = Color(0xFFCCCCCC);
-  static const Color idColor = Color(0xFF00B6F0);
+  static const Color idColor = kBrandAccent;
   static const Color darkGray = Color.fromARGB(255, 148, 148, 148);
   static const Color cmIdColor = Color(0xFF21790B);
   static const Color dark = Colors.black87;
-  static const Color button = Color(0xFF2C8CFF);
+  static const Color button = kBrandPrimary;
   static const Color hoverBorder = Color(0xFF999999);
 
   // ListTile
@@ -454,7 +454,7 @@ class MyTheme {
         style:
             MenuStyle(backgroundColor: MaterialStatePropertyAll(Colors.white))),
     colorScheme: ColorScheme.light(
-        primary: Colors.blue, secondary: accent, background: grayBg),
+        primary: kBrandPrimary, secondary: accent, background: grayBg),
     popupMenuTheme: PopupMenuThemeData(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -562,7 +562,7 @@ class MyTheme {
         style: MenuStyle(
             backgroundColor: MaterialStatePropertyAll(Color(0xFF121212)))),
     colorScheme: ColorScheme.dark(
-      primary: Colors.blue,
+      primary: kBrandPrimaryLight,
       secondary: accent,
       background: Color(0xFF24252B),
     ),
@@ -1152,7 +1152,7 @@ Widget createDialogContent(String text) {
     spans.add(TextSpan(
       text: match.group(0) ?? '',
       style: const TextStyle(
-        color: Colors.blue,
+        color: kBrandAccent,
         decoration: TextDecoration.underline,
       ),
       recognizer: TapGestureRecognizer()
@@ -1281,7 +1281,7 @@ Color? _msgboxColor(String type) {
   if (type.contains("error") || type == "re-input-password") {
     return Color(0xFFE04F5F);
   }
-  return Color(0xFF2C8CFF);
+  return MyTheme.accent;
 }
 
 Widget msgboxIcon(String type) {
@@ -1377,7 +1377,7 @@ Color str2color2(String str, {List<int> existing = const []}) {
   Map<String, Color> colorMap = {
     "red": Colors.red,
     "green": Colors.green,
-    "blue": Colors.blue,
+    "blue": kBrandAccent,
     "orange": Colors.orange,
     "purple": Colors.purple,
     "grey": Colors.grey,
@@ -2816,7 +2816,7 @@ Future<void> onActiveWindowChanged() async {
     } catch (err) {
       debugPrintStack(label: "$err");
     } finally {
-      debugPrint("Start closing RustDesk...");
+      debugPrint("Start closing ${bind.mainGetAppNameSync()}...");
       await windowManager.setPreventClose(false);
       await windowManager.close();
       if (isMacOS) {
@@ -3697,7 +3697,7 @@ Widget loadPowered(BuildContext context) {
     cursor: SystemMouseCursors.click,
     child: GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse('https://rustdesk.com'));
+        launchUrl(Uri.parse(kDalSeenHomeUrl));
       },
       child: Opacity(
           opacity: 0.5,

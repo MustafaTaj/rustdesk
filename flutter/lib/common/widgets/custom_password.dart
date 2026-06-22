@@ -1,6 +1,7 @@
 // https://github.com/rodrigobastosv/fancy_password_field
 import 'package:flutter/material.dart';
 import 'package:flutter_hbb/common.dart';
+import 'package:flutter_hbb/consts.dart';
 import 'package:get/get.dart';
 import 'package:password_strength/password_strength.dart';
 
@@ -121,7 +122,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
     if (strength < weakMedium) {
       return Colors.yellow;
     } else if (strength < mediumStrong) {
-      return Colors.blue;
+      return kBrandAccent;
     } else {
       return Colors.green;
     }

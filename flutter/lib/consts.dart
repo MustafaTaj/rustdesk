@@ -4,6 +4,17 @@ import 'package:flutter_hbb/common.dart';
 import 'package:flutter_hbb/models/state_model.dart';
 import 'package:get/get.dart';
 
+const String kDalSeenHomeUrl = 'https://dalseen.sa';
+const String kDalSeenPrivacyUrl = 'https://dalseen.sa/privacy_policy.pdf';
+
+// DAL SEEN brand palette (from res/dalseen-mark.svg fill #0E2F44)
+const Color kBrandPrimary = Color(0xFF0E2F44);
+const Color kBrandPrimaryLight = Color(0xFF1A5270);
+const Color kBrandAccent = Color(0xFF356B87);
+const Color kBrandAccentSoft = Color(0xFF8FAFBF);
+const Color kBrandAccentMuted = Color(0xFF2A4556);
+const List<Color> kBrandGradientColors = [kBrandPrimary, kBrandAccent];
+
 const int kMaxVirtualDisplayCount = 4;
 const int kAllVirtualDisplay = -1;
 

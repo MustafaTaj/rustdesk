@@ -124,7 +124,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
         ? const SizedBox(height: 0)
         : InkWell(
             onTap: () async {
-              final url = 'https://rustdesk.com/download';
+              final url = kDalSeenHomeUrl;
               // https://pub.dev/packages/url_launcher#configuration
               // https://developer.android.com/training/package-visibility/use-cases#open-urls-custom-tabs
               //
@@ -138,7 +138,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
             child: Container(
                 alignment: AlignmentDirectional.center,
                 width: double.infinity,
-                color: Colors.pinkAccent,
+                color: kBrandPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(translate('Download new version'),
                     style: const TextStyle(

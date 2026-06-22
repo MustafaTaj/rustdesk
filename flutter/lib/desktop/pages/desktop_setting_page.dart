@@ -2426,7 +2426,7 @@ class _AboutState extends State<_About> {
       final scrollController = ScrollController();
       return SingleChildScrollView(
         controller: scrollController,
-        child: _Card(title: translate('About RustDesk'), children: [
+        child: _Card(title: 'About ${bind.mainGetAppNameSync()}', children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -2445,7 +2445,7 @@ class _AboutState extends State<_About> {
                         .marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com/privacy.html');
+                    launchUrlString(kDalSeenPrivacyUrl);
                   },
                   child: Text(
                     translate('Privacy Statement'),
@@ -2453,14 +2453,14 @@ class _AboutState extends State<_About> {
                   ).marginSymmetric(vertical: 4.0)),
               InkWell(
                   onTap: () {
-                    launchUrlString('https://rustdesk.com');
+                    launchUrlString(kDalSeenHomeUrl);
                   },
                   child: Text(
                     translate('Website'),
                     style: linkStyle,
                   ).marginSymmetric(vertical: 4.0)),
               Container(
-                decoration: const BoxDecoration(color: Color(0xFF2c8cff)),
+                decoration: const BoxDecoration(color: kBrandPrimary),
                 padding:
                     const EdgeInsets.symmetric(vertical: 24, horizontal: 8),
                 child: SelectionArea(
