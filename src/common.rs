@@ -42,6 +42,10 @@ use crate::{
     ui_interface::{get_api_server as ui_get_api_server, get_option, is_installed, set_option},
 };
 
+/// Bundled DAL SEEN deployment settings (kept in main repo so hbb_common stays upstream).
+pub const DAL_SEEN_RENDEZVOUS_SERVER: &str = "66.29.138.20";
+pub const DAL_SEEN_RS_PUB_KEY: &str = "mukE7RVSBZytKOtfJAlEZzyeyXthyjCFV+CBIkY5T5o=";
+
 #[derive(Debug, Eq, PartialEq)]
 pub enum GrabState {
     Ready,
@@ -1822,7 +1826,7 @@ pub async fn get_key(sync: bool) -> String {
         options.remove("key").unwrap_or_default()
     };
     if key.is_empty() {
-        key = config::RS_PUB_KEY.to_owned();
+        key = DAL_SEEN_RS_PUB_KEY.to_owned();
     }
     key
 }
@@ -2116,9 +2120,12 @@ fn lock_bundled_server_settings() {
     let mut overwrite = config::OVERWRITE_SETTINGS.write().unwrap();
     overwrite.insert(
         keys::OPTION_CUSTOM_RENDEZVOUS_SERVER.to_string(),
-        config::RENDEZVOUS_SERVERS[0].to_string(),
+        DAL_SEEN_RENDEZVOUS_SERVER.to_string(),
     );
-    overwrite.insert(keys::OPTION_KEY.to_string(), config::RS_PUB_KEY.to_string());
+    overwrite.insert(
+        keys::OPTION_KEY.to_string(),
+        DAL_SEEN_RS_PUB_KEY.to_string(),
+    );
     drop(overwrite);
 
     config::BUILTIN_SETTINGS
