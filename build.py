@@ -46,6 +46,21 @@ def system2(cmd):
         sys.exit(-1)
 
 
+def get_macos_app_bundle_name():
+    app_filename_path = 'macos/Flutter/ephemeral/.app_filename'
+    if os.path.isfile(app_filename_path):
+        with open(app_filename_path, encoding='utf-8') as fh:
+            name = fh.read().strip()
+            if name:
+                return name
+    release_dir = 'build/macos/Build/Products/Release'
+    if os.path.isdir(release_dir):
+        for entry in sorted(os.listdir(release_dir)):
+            if entry.endswith('.app'):
+                return entry
+    return 'RustDesk.app'
+
+
 def get_version():
     with open("Cargo.toml", encoding="utf-8") as fh:
         for line in fh:
@@ -417,7 +432,9 @@ def build_flutter_dmg(version, features):
     mac_arch = 'arm64' if platform.machine().lower() in ('arm64', 'aarch64') else 'x86_64'
     system2(
         f'FLUTTER_XCODE_ARCHS={mac_arch} FLUTTER_XCODE_ONLY_ACTIVE_ARCH=YES flutter build macos --release')
-    system2('cp -rf ../target/release/service ./build/macos/Build/Products/Release/RustDesk.app/Contents/MacOS/')
+    mac_app = get_macos_app_bundle_name()
+    system2(
+        f'cp -rf ../target/release/service ./build/macos/Build/Products/Release/{mac_app}/Contents/MacOS/')
     '''
     system2(
         "create-dmg --volname \"RustDesk Installer\" --window-pos 200 120 --window-size 800 400 --icon-size 100 --app-drop-link 600 185 --icon RustDesk.app 200 190 --hide-extension RustDesk.app rustdesk.dmg ./build/macos/Build/Products/Release/RustDesk.app")
