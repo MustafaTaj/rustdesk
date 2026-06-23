@@ -11,6 +11,9 @@ on:
 
 jobs:
   run-flutter-tag-build:
+    permissions:
+      contents: write
+      actions: read
     uses: ./.github/workflows/flutter-build.yml
     secrets: inherit
     with:
